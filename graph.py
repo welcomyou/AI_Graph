@@ -63,19 +63,6 @@ class Graph:
                 for i in range(1, len(lstxt)):
                     self.addEdge(lstxt[0], lstxt[i])
 
-    def convertToNetworkX (self):
-        """
-        Don't use this function. Ugly drawing, not handle edge crossing well
-        """
-        # Create a graph
-        nx_graph = nx.Graph()
-        # Add vertices
-        nx_graph.add_nodes_from([i for i in self.vertList.keys()])
-        # Add edges with weights
-        for f in self.vertList.keys(): #f là key ~ text
-            for t in self.vertList[f].getConnections(): #t là 1 object
-                nx_graph.add_edge(f, t.id, weight=self.vertList[f].getWeight(t))
-        return nx_graph
 
     def convertToPyGraphviz (self):
         """
@@ -92,27 +79,6 @@ class Graph:
             for t in self.vertList[f].getConnections(): #t là 1 object
                 pgv_graph.add_edge(f, t.id, weight=self.vertList[f].getWeight(t))
         return pgv_graph
-
-
-    def drawNetworkX (self):
-        """
-        Don't use this function. Ugly drawing, not handle edge crossing well
-        """
-        nx_graph = self.convertToNetworkX()
-        # Define a color map for the nodes
-        color_map = [self.vertList[x].color for x in self.vertList]
-        # Define the node to be colored
-        #colored_node = 'A'
-        # Draw the graph with labels, weights, and color
-        pos = nx.spring_layout(nx_graph)
-        nx.draw_networkx_nodes(nx_graph, pos, node_size=500, node_color=color_map, alpha=0.5)
-        nx.draw_networkx_labels(nx_graph, pos)
-        nx.draw_networkx_edges(nx_graph, pos)
-        labels = nx.get_edge_attributes(nx_graph, 'weight')
-        nx.draw_networkx_edge_labels(nx_graph, pos, edge_labels=labels)
-        # Show the graph
-        plt.show()
-        return
 
     def drawPyGraphviz(self):
         """
